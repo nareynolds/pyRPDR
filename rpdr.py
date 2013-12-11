@@ -21,8 +21,10 @@ dbpath = "/Users/nathanielreynolds/Documents/Career/'12 Mass General Hosptial/At
 P = rpdr.Patient(dbpath, empi='100090828', mrn='54321')
 
 # view patient timeline
-P.timeline(['Rdt','Rad',...])
+P.timeline(['Rdt','Rad'])
 
+# view specific event
+P.event('Rad', 1)
 
 *****************************************************
 '''
@@ -284,17 +286,15 @@ class Patient:
         self.possibleTimelineTableNames = [ t.name for t in rpdrtables.Tables if t.useInTimeline ]
         self.dbTableNames = None
         self.dbRpdrTableNames = None
+        self.dbRpdrTables = None
         self.dbTimelineTableNames = None
         self.dbTimelineTables = None
         self.demographics = None
         self.timelineTableNames = None
 
-        self.result = None
-
         # connect to SQLite database and enable dictionary access of rows
         self.dbCon = sqlite3.connect(self.dbPath)
         self.dbCon.row_factory = sqlite3.Row
-        print " Connected to SQLite database: %s" % os.path.basename(self.dbPath)
     
         # get list of tables in database
         with self.dbCon:
@@ -309,6 +309,7 @@ class Patient:
     
         # get list of RPDR tables in given database
         self.dbRpdrTableNames = [ n for n in self.dbTableNames if n in self.possibleRpdrTableNames ]
+        self.dbRpdrTables = [ t for t in rpdrtables.Tables if t.name in self.dbRpdrTableNames ]
         
         # check that there are rpdr tables in given database
         if len(self.dbRpdrTableNames) < 1:
@@ -318,7 +319,7 @@ class Patient:
         self.dbTimelineTableNames = [ n for n in self.dbTableNames if n in self.possibleTimelineTableNames ]
         self.dbTimelineTables = [ t for t in rpdrtables.Tables if t.name in self.dbTimelineTableNames ]
 
-        # search for basic patient info
+        # search for basic patient demographics
         with self.dbCon:
             dbCur = self.dbCon.cursor()
             dbCur.execute( "SELECT * FROM Dem WHERE EMPI=? LIMIT 1", (empi,) )
@@ -328,30 +329,33 @@ class Patient:
                 return
             self.demographics = qResult
         
-        # find number of events belonging to this patient in each table accept the Mrn table
-        with self.dbCon:
-            dbCur = self.dbCon.cursor()
-            for tableName in [ n for n in self.dbRpdrTableNames if n != 'Mrn' ]:
-                dbCur.execute( "SELECT count(*) FROM %s WHERE EMPI=?" % tableName, (empi,) )
-                qResult = dbCur.fetchone()
-                if qResult is None:
-                    print " No events found in '%s'" % tableName
-                else:
-                    print " Found %d events in '%s' table" % (qResult[0],tableName)
+        ## find number of events belonging to this patient in each table accept the Mrn table
+        #with self.dbCon:
+        #    dbCur = self.dbCon.cursor()
+        #    for tableName in [ n for n in self.dbRpdrTableNames if n != 'Mrn' ]:
+        #        dbCur.execute( "SELECT count(*) FROM %s WHERE EMPI=?" % tableName, (empi,) )
+        #        qResult = dbCur.fetchone()
+        #        if qResult is None:
+        #            print " No events found in '%s'" % tableName
+        #        else:
+        #            print " Found %d events in '%s' table" % (qResult[0],tableName)
 
 
 
 
     #--------------------------------------------------------------------------------------------
-    def timeline( self, tables=[] ):
+    def timeline( self, tables='' ):
 
         # determine tables to search
         if tables:
             timelineTables = [ t for t in self.dbTimelineTables if t.name in tables ]
+            if not timelineTables:
+                print "Error: Provided timeline tables are invalid ( %s )" % tables
+                return
         else:
             timelineTables = self.dbTimelineTables
         
-        #
+        # create SQL search query
         tablesSearchQueries = []
         for table in timelineTables:
             dateColName = None
@@ -364,10 +368,9 @@ class Patient:
             q = "SELECT '%s' AS 'Table', rowid AS EventId, %s AS Date, round( ( ( julianday(%s) - julianday('%s') ) / 365 ), 2 ) AS Age, %s AS Blurb FROM %s WHERE EMPI = %s" \
                 % (table.name, dateColName, dateColName, self.demographics['Date_of_Birth'], blurbColName, table.name, self.empi )
             tablesSearchQueries.append(q)
-
-        
         qSearch = "Select * From ( %s ) ORDER BY Date" % " UNION ".join(tablesSearchQueries)
 
+        # query database
         events = None
         with self.dbCon:
             dbCur = self.dbCon.cursor()
@@ -378,19 +381,22 @@ class Patient:
                 return
             events = qResult
 
-        
-        print "_______________________________________________________________________________________________"
-        print "Timeline: %s" % ', '.join(tables)
-        print "-----------------------------------------------------------------------------------------------"
-        print "|Table \t|Event \t|Date \t\t|Age \t|Blurb"
-        print "-----------------------------------------------------------------------------------------------"
+        # print events
+        print " _______________________________________________________________________________________________\n |"
+        print " | Timeline: %s" % str(tables)
+        print " |----------------------------------------------------------------------------------------------"
+        print " |Table\t|Event \t|Date \t\t|Age \t|Blurb"
+        print " |----------------------------------------------------------------------------------------------"
+        print " |Dem \t|1 \t|%s \t|0.00 \t|Birth Date" % self.demographics['Date_of_Birth']
         for event in events:
             if len(event['Blurb']) > 50:
                 blurb = "%s..." % event['Blurb'][:50]
             else:
                 blurb = event['Blurb']
-            print "|%s \t|%s \t|%s \t|%s \t|%s" % (event['Table'], str(event['EventId']), event['Date'], str(event['Age']), blurb )
-        print "_______________________________________________________________________________________________"
+            print " |%s \t|%s \t|%s \t|%s \t|%s" % (event['Table'], str(event['EventId']), event['Date'], str(event['Age']), blurb )
+        if self.demographics['Date_of_Death']:
+            print " |Dem \t|1 \t|%s \t|    \t|Birth Date" % self.demographics['Date_of_Birth']
+        print " |______________________________________________________________________________________________\n"
 
 
 
@@ -398,9 +404,49 @@ class Patient:
     #--------------------------------------------------------------------------------------------
     def event( self, table, event ):
 
-        #
-        print "event"
+        # validate args
+        if table:
+            table = [ t for t in self.dbRpdrTables if t.name in table ][0]
+        else:
+            print "Error: Can't find '%s' table!"
+            return
+        if not event:
+            print "Error: Must provide event id!"
+            return
 
+        # search for event
+        qResult = None
+        with self.dbCon:
+            dbCur = self.dbCon.cursor()
+            dbCur.execute( "SELECT * FROM %s WHERE EMPI = ? AND rowid = ? LIMIT 1" % table.name, (self.empi,event) )
+            qResult = dbCur.fetchone()
+            if qResult is None:
+                print " Error: Search query failed."
+                return
+        eventCols = [c for c in qResult]
+
+        # determine spacing after name
+        colLength = 0
+        for col in table.columns:
+            if len(col.name) > colLength:
+                colLength = len(col.name)
+        
+        print " _______________________________________________________________________________________________\n |"
+
+        # print table name
+        spacing = ''.join([ ' ' for i in xrange(colLength - len("Table")) ])
+        print " |Table:%s %s" % (spacing, table.name)
+
+        # account for last column containing a free-text report
+        spacing = "|%s" % ''.join([ ' ' for i in xrange(colLength+1) ])
+        eventCols[len(eventCols)-1] = eventCols[len(eventCols)-1].replace('\n', '\n %s ' % spacing)
+
+        # print columns
+        for cIdx, col in enumerate(table.columns):
+            spacing = ''.join([ ' ' for i in xrange(colLength - len(col.name)) ])
+            print " |%s:%s %s" % (col.name, spacing, eventCols[cIdx])
+
+        print " |______________________________________________________________________________________________\n"
 
 
 
