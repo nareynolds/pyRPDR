@@ -27,7 +27,7 @@ DateReformat = namedtuple('DateReformat','format reformat')
 SQLITE_DATE_FORMAT = '%Y-%m-%d'
 
 # define RPDR table column
-TableColumn = namedtuple('TableColumn','name type primaryKey index unique notNull foreignKeyRef dateReformat')
+TableColumn = namedtuple('TableColumn','name type primaryKey index unique notNull foreignKeyRef dateReformat timelineDate timelineBlurb')
 
 # define RPDR csv dialect and some standards
 CsvDialect = namedtuple('CsvDialect','delimiter doublequote escapechar lineterminator quotechar quoting skipinitialspace strict')
@@ -44,17 +44,18 @@ StandardCsvDialect = CsvDialect(
 )
 
 # define RPDR table
-Table = namedtuple('Table', 'fileSuffix fileExt columns csvDialect freeTextReportInLastColumn')
+Table = namedtuple('Table', 'name fileExt columns csvDialect freeTextReportInLastColumn useInTimeline')
 
 
 
 #--------------------------------------------------------------------------------------------
 # define Car RPDR table
 Car = Table(
-    fileSuffix = 'Car',
+    name = 'Car',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -64,6 +65,8 @@ Car = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -74,6 +77,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -84,6 +89,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -94,6 +101,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -104,6 +113,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -114,6 +125,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %I:%M:%S %p', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -124,6 +137,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -134,6 +149,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -144,6 +161,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -154,6 +173,8 @@ Car = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -164,10 +185,11 @@ Car = Table(
 #--------------------------------------------------------------------------------------------
 # define Con RPDR table
 Con = Table(
-    fileSuffix = 'Con',
+    name = 'Con',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = False,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -177,6 +199,8 @@ Con = Table(
             unique =        True,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -187,6 +211,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -197,6 +223,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -207,6 +235,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -217,6 +247,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -227,6 +259,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -237,6 +271,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -247,6 +283,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -257,6 +295,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -267,6 +307,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -277,6 +319,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -287,6 +331,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -297,6 +343,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -307,6 +355,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -317,6 +367,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -327,6 +379,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -337,6 +391,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -347,6 +403,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -357,6 +415,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -367,6 +427,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -377,6 +439,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -387,6 +451,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -397,6 +463,8 @@ Con = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -407,10 +475,11 @@ Con = Table(
 #--------------------------------------------------------------------------------------------
 # define Dem RPDR table
 Dem = Table(
-    fileSuffix = 'Dem',
+    name = 'Dem',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = False,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -420,6 +489,8 @@ Dem = Table(
             unique =        True,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -430,6 +501,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -440,6 +513,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -450,6 +525,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -460,6 +537,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -470,6 +549,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -480,6 +561,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -490,6 +573,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -500,6 +585,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -510,6 +597,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -520,6 +609,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -530,6 +621,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -540,6 +633,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -550,6 +645,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -560,6 +657,8 @@ Dem = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         )
     ]
@@ -570,10 +669,11 @@ Dem = Table(
 #--------------------------------------------------------------------------------------------
 # define Dia RPDR table
 Dia = Table(
-    fileSuffix = 'Dia',
+    name = 'Dia',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -583,6 +683,8 @@ Dia = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -593,6 +695,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -603,6 +707,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -613,6 +719,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -623,6 +731,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -633,6 +743,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -643,6 +755,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -653,6 +767,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -663,6 +779,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -673,6 +791,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -683,6 +803,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -693,6 +815,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -703,6 +827,8 @@ Dia = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -713,10 +839,11 @@ Dia = Table(
 #--------------------------------------------------------------------------------------------
 # define Dis RPDR table
 Dis = Table(
-    fileSuffix = 'Dis',
+    name = 'Dis',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -726,6 +853,8 @@ Dis = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -736,6 +865,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -746,6 +877,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -756,6 +889,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -766,6 +901,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -776,6 +913,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %I:%M:%S %p', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -786,6 +925,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -796,6 +937,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -806,6 +949,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -816,6 +961,8 @@ Dis = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -826,10 +973,11 @@ Dis = Table(
 #--------------------------------------------------------------------------------------------
 # define Enc RPDR table
 Enc = Table(
-    fileSuffix = 'Enc',
+    name = 'Enc',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -839,6 +987,8 @@ Enc = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -849,6 +999,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -859,6 +1011,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -869,6 +1023,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -879,6 +1035,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -889,6 +1047,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -899,6 +1059,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -909,6 +1071,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -919,6 +1083,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -929,6 +1095,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -939,6 +1107,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -949,6 +1119,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -959,6 +1131,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -969,6 +1143,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -979,6 +1155,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -989,6 +1167,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -999,6 +1179,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1009,6 +1191,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1019,6 +1203,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1029,6 +1215,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1039,6 +1227,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1049,6 +1239,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1059,6 +1251,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1069,6 +1263,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1079,6 +1275,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1089,6 +1287,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1099,6 +1299,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1109,6 +1311,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1119,6 +1323,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1129,6 +1335,8 @@ Enc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -1139,10 +1347,11 @@ Enc = Table(
 #--------------------------------------------------------------------------------------------
 # define End RPDR table
 End = Table(
-    fileSuffix = 'End',
+    name = 'End',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -1152,6 +1361,8 @@ End = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1162,6 +1373,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1172,6 +1385,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1182,6 +1397,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1192,6 +1409,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1202,6 +1421,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %I:%M:%S %p', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -1212,6 +1433,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -1222,6 +1445,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1232,6 +1457,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1242,6 +1469,8 @@ End = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -1252,10 +1481,11 @@ End = Table(
 #--------------------------------------------------------------------------------------------
 # define Lab RPDR table
 Lab = Table(
-    fileSuffix = 'Lab',
+    name = 'Lab',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -1265,6 +1495,8 @@ Lab = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1275,6 +1507,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1285,6 +1519,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1295,6 +1531,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %H:%M', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -1305,6 +1543,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1315,6 +1555,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1325,6 +1567,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1335,6 +1579,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -1345,6 +1591,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1355,6 +1603,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1365,6 +1615,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1375,6 +1627,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1385,6 +1639,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1395,6 +1651,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1405,6 +1663,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1415,6 +1675,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1425,6 +1687,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1435,6 +1699,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1445,6 +1711,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1455,6 +1723,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1465,6 +1735,8 @@ Lab = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -1475,10 +1747,11 @@ Lab = Table(
 #--------------------------------------------------------------------------------------------
 # define Lhm RPDR table
 Lhm = Table(
-    fileSuffix = 'Lhm',
+    name = 'Lhm',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -1488,6 +1761,8 @@ Lhm = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1498,6 +1773,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1508,6 +1785,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1518,6 +1797,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1528,6 +1809,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %H:%M', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -1538,6 +1821,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -1548,6 +1833,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1558,6 +1845,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1568,6 +1857,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1578,6 +1869,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1588,6 +1881,8 @@ Lhm = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -1598,10 +1893,11 @@ Lhm = Table(
 #--------------------------------------------------------------------------------------------
 # define Lme RPDR table
 Lme = Table(
-    fileSuffix = 'Lme',
+    name = 'Lme',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -1611,6 +1907,8 @@ Lme = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1621,6 +1919,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1631,6 +1931,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1641,6 +1943,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %H:%M', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -1651,6 +1955,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -1661,6 +1967,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1671,6 +1979,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1681,6 +1991,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1691,6 +2003,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1701,6 +2015,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1711,6 +2027,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1721,6 +2039,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1731,6 +2051,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1741,6 +2063,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1751,6 +2075,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1761,6 +2087,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1771,6 +2099,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1781,6 +2111,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1791,6 +2123,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1801,6 +2135,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1811,6 +2147,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1821,6 +2159,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1831,6 +2171,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1841,6 +2183,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1851,6 +2195,8 @@ Lme = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -1861,10 +2207,11 @@ Lme = Table(
 #--------------------------------------------------------------------------------------------
 # define Lno RPDR table
 Lno = Table(
-    fileSuffix = 'Lno',
+    name = 'Lno',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -1874,6 +2221,8 @@ Lno = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1884,6 +2233,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1894,6 +2245,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1904,6 +2257,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %H:%M', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -1914,6 +2269,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1924,6 +2281,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1934,6 +2293,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1944,6 +2305,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1954,6 +2317,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1964,6 +2329,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -1974,6 +2341,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -1984,6 +2353,8 @@ Lno = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -1994,10 +2365,11 @@ Lno = Table(
 #--------------------------------------------------------------------------------------------
 # define Lpr RPDR table
 Lpr = Table(
-    fileSuffix = 'Lpr',
+    name = 'Lpr',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -2007,6 +2379,8 @@ Lpr = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2017,6 +2391,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2027,6 +2403,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2037,6 +2415,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -2047,6 +2427,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -2057,6 +2439,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2067,6 +2451,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2077,6 +2463,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2087,6 +2475,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2097,6 +2487,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2107,6 +2499,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2117,6 +2511,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2127,6 +2523,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2137,6 +2535,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2147,6 +2547,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2157,6 +2559,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2167,6 +2571,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2177,6 +2583,8 @@ Lpr = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -2187,10 +2595,11 @@ Lpr = Table(
 #--------------------------------------------------------------------------------------------
 # define Lvs RPDR table
 Lvs = Table(
-    fileSuffix = 'Lvs',
+    name = 'Lvs',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -2200,6 +2609,8 @@ Lvs = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2210,6 +2621,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2220,6 +2633,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2230,6 +2645,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %H:%M', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -2240,6 +2657,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -2250,6 +2669,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2260,6 +2681,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2270,6 +2693,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2280,6 +2705,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2290,6 +2717,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2300,6 +2729,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2310,6 +2741,8 @@ Lvs = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -2320,10 +2753,11 @@ Lvs = Table(
 #--------------------------------------------------------------------------------------------
 # define Med RPDR table
 Med = Table(
-    fileSuffix = 'Med',
+    name = 'Med',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -2333,6 +2767,8 @@ Med = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2343,6 +2779,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2353,6 +2791,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2363,6 +2803,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -2373,6 +2815,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -2383,6 +2827,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2393,6 +2839,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2403,6 +2851,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2413,6 +2863,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2423,6 +2875,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2433,6 +2887,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2443,6 +2899,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2453,6 +2911,8 @@ Med = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -2463,10 +2923,11 @@ Med = Table(
 #--------------------------------------------------------------------------------------------
 # define Mic RPDR table
 Mic = Table(
-    fileSuffix = 'Mic',
+    name = 'Mic',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -2476,6 +2937,8 @@ Mic = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2486,6 +2949,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2496,6 +2961,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2506,6 +2973,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2516,6 +2985,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %H:%M:%S', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -2526,6 +2997,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -2536,6 +3009,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2546,6 +3021,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2556,6 +3033,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2566,6 +3045,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2576,6 +3057,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2586,6 +3069,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2596,6 +3081,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2606,6 +3093,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2616,6 +3105,8 @@ Mic = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -2626,10 +3117,11 @@ Mic = Table(
 #--------------------------------------------------------------------------------------------
 # define Mrn RPDR table
 Mrn = Table(
-    fileSuffix = 'Mrn',
+    name = 'Mrn',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = False,
     columns=[
         TableColumn(
             name =          "Enterprise_Master_Patient_Index",
@@ -2639,6 +3131,8 @@ Mrn = Table(
             unique =        True,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2649,6 +3143,8 @@ Mrn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2659,6 +3155,8 @@ Mrn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2669,6 +3167,8 @@ Mrn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2679,6 +3179,8 @@ Mrn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2689,6 +3191,8 @@ Mrn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2699,6 +3203,8 @@ Mrn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2709,6 +3215,8 @@ Mrn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -2719,10 +3227,11 @@ Mrn = Table(
 #--------------------------------------------------------------------------------------------
 # define Opn RPDR table
 Opn = Table(
-    fileSuffix = 'Opn',
+    name = 'Opn',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -2732,6 +3241,8 @@ Opn = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2742,6 +3253,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2752,6 +3265,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2762,6 +3277,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2772,6 +3289,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2782,6 +3301,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %I:%M:%S %p', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -2792,6 +3313,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -2802,6 +3325,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2812,6 +3337,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2822,6 +3349,8 @@ Opn = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -2832,10 +3361,11 @@ Opn = Table(
 #--------------------------------------------------------------------------------------------
 # define Pal RPDR table
 Pal = Table(
-    fileSuffix = 'Pal',
+    name = 'Pal',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -2845,6 +3375,8 @@ Pal = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2855,6 +3387,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2865,6 +3399,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2875,6 +3411,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2885,6 +3423,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %H:%M:%S', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -2895,6 +3435,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -2905,6 +3447,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2915,6 +3459,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2925,6 +3471,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2935,6 +3483,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2945,6 +3495,8 @@ Pal = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -2955,10 +3507,11 @@ Pal = Table(
 #--------------------------------------------------------------------------------------------
 # define Pat RPDR table
 Pat = Table(
-    fileSuffix = 'Pat',
+    name = 'Pat',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -2968,6 +3521,8 @@ Pat = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2978,6 +3533,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2988,6 +3545,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -2998,6 +3557,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3008,6 +3569,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3018,6 +3581,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %I:%M:%S %p', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -3028,6 +3593,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -3038,6 +3605,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3048,6 +3617,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3058,6 +3629,8 @@ Pat = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -3068,10 +3641,11 @@ Pat = Table(
 #--------------------------------------------------------------------------------------------
 # define Phy RPDR table
 Phy = Table(
-    fileSuffix = 'Phy',
+    name = 'Phy',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -3081,6 +3655,8 @@ Phy = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3091,6 +3667,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3101,6 +3679,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3111,6 +3691,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -3121,6 +3703,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -3131,6 +3715,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3141,6 +3727,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3151,6 +3739,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3161,6 +3751,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3171,6 +3763,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3181,6 +3775,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3191,6 +3787,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3201,6 +3799,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3211,6 +3811,8 @@ Phy = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -3221,10 +3823,11 @@ Phy = Table(
 #--------------------------------------------------------------------------------------------
 # define Prc RPDR table
 Prc = Table(
-    fileSuffix = 'Prc',
+    name = 'Prc',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -3234,6 +3837,8 @@ Prc = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3244,6 +3849,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3254,6 +3861,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3264,6 +3873,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -3274,6 +3885,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -3284,6 +3897,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3294,6 +3909,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3304,6 +3921,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3314,6 +3933,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3324,6 +3945,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3334,6 +3957,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3344,6 +3969,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3354,6 +3981,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3364,6 +3993,8 @@ Prc = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -3374,10 +4005,11 @@ Prc = Table(
 #--------------------------------------------------------------------------------------------
 # define Prv RPDR table
 Prv = Table(
-    fileSuffix = 'Prv',
+    name = 'Prv',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -3387,6 +4019,8 @@ Prv = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3397,6 +4031,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3407,6 +4043,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3417,6 +4055,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3427,6 +4067,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3437,6 +4079,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -3447,6 +4091,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -3457,6 +4103,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3467,6 +4115,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3477,6 +4127,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3487,6 +4139,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3497,6 +4151,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3507,6 +4163,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3517,6 +4175,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3527,6 +4187,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3537,6 +4199,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3547,6 +4211,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3557,6 +4223,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3567,6 +4235,8 @@ Prv = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -3577,10 +4247,11 @@ Prv = Table(
 #--------------------------------------------------------------------------------------------
 # define Pul RPDR table
 Pul = Table(
-    fileSuffix = 'Pul',
+    name = 'Pul',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -3590,6 +4261,8 @@ Pul = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3600,6 +4273,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3610,6 +4285,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3620,6 +4297,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3630,6 +4309,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3640,6 +4321,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %I:%M:%S %p', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -3650,6 +4333,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -3660,6 +4345,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3670,6 +4357,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3680,6 +4369,8 @@ Pul = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -3690,10 +4381,11 @@ Pul = Table(
 #--------------------------------------------------------------------------------------------
 # define Rad RPDR table
 Rad = Table(
-    fileSuffix = 'Rad',
+    name = 'Rad',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = True,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -3703,6 +4395,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3713,6 +4407,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3723,6 +4419,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3733,6 +4431,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3743,6 +4443,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3753,6 +4455,8 @@ Rad = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y %I:%M:%S %p', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -3763,6 +4467,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -3773,6 +4479,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3783,6 +4491,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3793,6 +4503,8 @@ Rad = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -3803,10 +4515,11 @@ Rad = Table(
 #--------------------------------------------------------------------------------------------
 # define Rdt RPDR table
 Rdt = Table(
-    fileSuffix = 'Rdt',
+    name = 'Rdt',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = True,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -3816,6 +4529,8 @@ Rdt = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3826,6 +4541,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3836,6 +4553,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3846,6 +4565,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
             dateReformat =  DateReformat( format='%m/%d/%Y', reformat=SQLITE_DATE_FORMAT )
         ),
         TableColumn(
@@ -3856,6 +4577,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3866,6 +4589,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3876,6 +4601,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3886,6 +4613,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
             dateReformat =  None
         ),
         TableColumn(
@@ -3896,6 +4625,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3906,6 +4637,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3916,6 +4649,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3926,6 +4661,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3936,6 +4673,8 @@ Rdt = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]
@@ -3946,10 +4685,11 @@ Rdt = Table(
 #--------------------------------------------------------------------------------------------
 # define Rnd RPDR table
 Rnd = Table(
-    fileSuffix = 'Rnd',
+    name = 'Rnd',
     fileExt = 'txt',
     csvDialect = StandardCsvDialect,
     freeTextReportInLastColumn = False,
+    useInTimeline = False,
     columns=[
         TableColumn(
             name =          "EMPI",
@@ -3959,6 +4699,8 @@ Rnd = Table(
             unique =        False,
             notNull =       True,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3969,6 +4711,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3979,6 +4723,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3989,6 +4735,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -3999,6 +4747,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4009,6 +4759,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4019,6 +4771,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4029,6 +4783,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4039,6 +4795,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4049,6 +4807,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4059,6 +4819,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4069,6 +4831,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4079,6 +4843,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4089,6 +4855,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4099,6 +4867,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4109,6 +4879,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4119,6 +4891,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4129,6 +4903,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         ),
         TableColumn(
@@ -4139,6 +4915,8 @@ Rnd = Table(
             unique =        False,
             notNull =       False,
             foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
             dateReformat =  None
         )
     ]

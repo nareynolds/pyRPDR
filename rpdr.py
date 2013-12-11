@@ -4,7 +4,7 @@
 *****************************************************
 Example use:
 
-# instantiate
+# instantiate SQLite Factory
 import rpdr
 F = rpdr.SqliteFactory()
 
@@ -13,6 +13,15 @@ F.build_database( "/Users/nathanielreynolds/Documents/Career/'12 Mass General Ho
 
 # import a single RPDR table
 F.build_table( "path/to/rpdrfile.txt" )
+
+
+# instantiate Patient
+import rpdr
+dbpath = "/Users/nathanielreynolds/Documents/Career/'12 Mass General Hosptial/Atrial Fibrillation Project/rpdr_data/Detailed_data_request_2012-present/JNR0_20130508_103057_MGH_DB.sqlite"
+P = rpdr.Patient(dbpath, empi='100090828', mrn='54321')
+
+# view patient timeline
+P.timeline(['Rdt','Rad',...])
 
 
 *****************************************************
@@ -67,7 +76,7 @@ class SqliteFactory:
             return
 
         # get list of vaild RPDR file endings
-        rpdrFileEndings = [ '%s.%s' % (table.fileSuffix, table.fileExt) for table in rpdrtables.Tables]
+        rpdrFileEndings = [ '%s.%s' % (table.name, table.fileExt) for table in rpdrtables.Tables]
 
         # check if each file is an RPDR file
         rpdrFiles = []
@@ -115,7 +124,7 @@ class SqliteFactory:
         # check that file is an RPDR file
         rpdrTable = None
         for t in rpdrtables.Tables:
-            if tablePath.endswith( '%s.%s' % (t.fileSuffix, t.fileExt) ):
+            if tablePath.endswith( '%s.%s' % (t.name, t.fileExt) ):
                 rpdrTable = t
 
         if rpdrTable == None:
@@ -152,22 +161,22 @@ class SqliteFactory:
             return
 
         # connect to SQLite database and enable dictionary access of rows
-        dbPath = '%sDB.sqlite' % tablePath.strip( '%s.%s' % (rpdrTable.fileSuffix, rpdrTable.fileExt) )
+        dbPath = '%sDB.sqlite' % tablePath.strip( '%s.%s' % (rpdrTable.name, rpdrTable.fileExt) )
         dbCon = sqlite3.connect(dbPath)
         dbCon.row_factory = sqlite3.Row
         print " Connected to SQLite database: %s" % os.path.basename(dbPath)
 
 
         # check if the RPDR table already exists
-        dbTableName = rpdrTable.fileSuffix
+        #rpdrTable.name = rpdrTable.name
         qResult = None
         with dbCon:
             dbCur = dbCon.cursor()
-            dbCur.execute( "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % dbTableName )
+            dbCur.execute( "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % rpdrTable.name )
             qResult = dbCur.fetchone()
 
         if qResult is not None:
-            print " Error! The RPDR table '%s' already exists." % dbTableName
+            print " Error! The RPDR table '%s' already exists." % rpdrTable.name
             return
 
         # create column declarations
@@ -188,8 +197,8 @@ class SqliteFactory:
 
 
         # create database table
-        print " Creating '%s' database table..." % dbTableName
-        qCreate = "CREATE TABLE `%s` ( %s )" % ( dbTableName, ','.join(colDecs) )
+        print " Creating '%s' database table..." % rpdrTable.name
+        qCreate = "CREATE TABLE `%s` ( %s )" % ( rpdrTable.name, ','.join(colDecs) )
         with dbCon:
             dbCur = dbCon.cursor()
             dbCur.execute(qCreate)
@@ -199,15 +208,15 @@ class SqliteFactory:
             if col.index:
                 with dbCon:
                     dbCur = dbCon.cursor()
-                    qIndex = "CREATE INDEX `%s_%s_idx` ON `%s` (`%s`)" % (dbTableName, col.name, dbTableName, col.name)
+                    qIndex = "CREATE INDEX `%s_%s_idx` ON `%s` (`%s`)" % (rpdrTable.name, col.name, rpdrTable.name, col.name)
                     dbCur.execute(qIndex)
 
 
         # prepare insert query - will ignore duplicates for tables with primary keys and uniqueness
-        qInsert = "INSERT OR IGNORE INTO %s ( `%s` ) VALUES ( %s )" % (dbTableName, '`, `'.join(rpdrTableColumnNames), ', '.join([ '?' for col in rpdrTableColumnNames]) )
+        qInsert = "INSERT OR IGNORE INTO %s ( `%s` ) VALUES ( %s )" % (rpdrTable.name, '`, `'.join(rpdrTableColumnNames), ', '.join([ '?' for col in rpdrTableColumnNames]) )
 
         # fill table
-        print " Filling '%s' database table..." % dbTableName
+        print " Filling '%s' database table..." % rpdrTable.name
         with dbCon:
             dbCur = dbCon.cursor()
             numCols = len(rpdrTableColumnNames)
@@ -254,13 +263,143 @@ class SqliteFactory:
 
 
 
+class Patient:
+
+    #--------------------------------------------------------------------------------------------
+    def __init__( self, dbPath=None, empi=None, mrn=None ):
+    
+        # validate args
+        if dbPath is None:
+            print " Error: must provide database path."
+            return
+        if empi is None and mrn is None:
+            print " Error: must provide EMPI or MRN."
+            return
+        
+        # define class variables
+        self.dbPath = dbPath
+        self.empi = empi
+        self.mrn = mrn
+        self.possibleRpdrTableNames = [ t.name for t in rpdrtables.Tables ]
+        self.possibleTimelineTableNames = [ t.name for t in rpdrtables.Tables if t.useInTimeline ]
+        self.dbTableNames = None
+        self.dbRpdrTableNames = None
+        self.dbTimelineTableNames = None
+        self.dbTimelineTables = None
+        self.demographics = None
+        self.timelineTableNames = None
+
+        self.result = None
+
+        # connect to SQLite database and enable dictionary access of rows
+        self.dbCon = sqlite3.connect(self.dbPath)
+        self.dbCon.row_factory = sqlite3.Row
+        print " Connected to SQLite database: %s" % os.path.basename(self.dbPath)
+    
+        # get list of tables in database
+        with self.dbCon:
+            dbCur = self.dbCon.cursor()
+            dbCur.execute( "SELECT name FROM sqlite_master WHERE type='table'" )
+            qResult = dbCur.fetchall()
+            if qResult is None:
+                print " Error: No tables in database."
+                return
+            else:
+                self.dbTableNames = [str(row[0]) for row in qResult]
+    
+        # get list of RPDR tables in given database
+        self.dbRpdrTableNames = [ n for n in self.dbTableNames if n in self.possibleRpdrTableNames ]
+        
+        # check that there are rpdr tables in given database
+        if len(self.dbRpdrTableNames) < 1:
+            print " Error: No RPDR tables found in database."
+            
+        # get list of RPDR tables in database to use in self.timeline()
+        self.dbTimelineTableNames = [ n for n in self.dbTableNames if n in self.possibleTimelineTableNames ]
+        self.dbTimelineTables = [ t for t in rpdrtables.Tables if t.name in self.dbTimelineTableNames ]
+
+        # search for basic patient info
+        with self.dbCon:
+            dbCur = self.dbCon.cursor()
+            dbCur.execute( "SELECT * FROM Dem WHERE EMPI=? LIMIT 1", (empi,) )
+            qResult = dbCur.fetchone()
+            if qResult is None:
+                print " Error: Couldn't find patient in Dem with EMPI = %s." % empi
+                return
+            self.demographics = qResult
+        
+        # find number of events belonging to this patient in each table accept the Mrn table
+        with self.dbCon:
+            dbCur = self.dbCon.cursor()
+            for tableName in [ n for n in self.dbRpdrTableNames if n != 'Mrn' ]:
+                dbCur.execute( "SELECT count(*) FROM %s WHERE EMPI=?" % tableName, (empi,) )
+                qResult = dbCur.fetchone()
+                if qResult is None:
+                    print " No events found in '%s'" % tableName
+                else:
+                    print " Found %d events in '%s' table" % (qResult[0],tableName)
 
 
 
 
+    #--------------------------------------------------------------------------------------------
+    def timeline( self, tables=[] ):
+
+        # determine tables to search
+        if tables:
+            timelineTables = [ t for t in self.dbTimelineTables if t.name in tables ]
+        else:
+            timelineTables = self.dbTimelineTables
+        
+        #
+        tablesSearchQueries = []
+        for table in timelineTables:
+            dateColName = None
+            blurbColName = None
+            for col in table.columns:
+                if col.timelineDate:
+                    dateColName = col.name
+                if col.timelineBlurb:
+                    blurbColName = col.name
+            q = "SELECT '%s' AS 'Table', rowid AS EventId, %s AS Date, round( ( ( julianday(%s) - julianday('%s') ) / 365 ), 2 ) AS Age, %s AS Blurb FROM %s WHERE EMPI = %s" \
+                % (table.name, dateColName, dateColName, self.demographics['Date_of_Birth'], blurbColName, table.name, self.empi )
+            tablesSearchQueries.append(q)
+
+        
+        qSearch = "Select * From ( %s ) ORDER BY Date" % " UNION ".join(tablesSearchQueries)
+
+        events = None
+        with self.dbCon:
+            dbCur = self.dbCon.cursor()
+            dbCur.execute( qSearch )
+            qResult = dbCur.fetchall()
+            if qResult is None:
+                print " Error: Search query failed."
+                return
+            events = qResult
+
+        
+        print "_______________________________________________________________________________________________"
+        print "Timeline: %s" % ', '.join(tables)
+        print "-----------------------------------------------------------------------------------------------"
+        print "|Table \t|Event \t|Date \t\t|Age \t|Blurb"
+        print "-----------------------------------------------------------------------------------------------"
+        for event in events:
+            if len(event['Blurb']) > 50:
+                blurb = "%s..." % event['Blurb'][:50]
+            else:
+                blurb = event['Blurb']
+            print "|%s \t|%s \t|%s \t|%s \t|%s" % (event['Table'], str(event['EventId']), event['Date'], str(event['Age']), blurb )
+        print "_______________________________________________________________________________________________"
 
 
 
+
+    #--------------------------------------------------------------------------------------------
+    def event( self, table, event ):
+
+        #
+        print "event"
 
 
 
