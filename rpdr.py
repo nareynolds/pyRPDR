@@ -4,27 +4,48 @@
 *****************************************************
 Example use:
 
-# instantiate SQLite Factory
+# import pyRPDR
 import rpdr
+
+# instantiate SQLite Factory
 F = rpdr.SqliteFactory()
 
-# import all RPDR tables in a directory
-F.build_database( "/Users/nathanielreynolds/Documents/Career/'12 Mass General Hosptial/Atrial Fibrillation Project/rpdr_data/Detailed_data_request_2012-present" )
+# build all RPDR tables in a directory
+F.build_database( "/Users/nathanielreynolds/Documents/projects/Atrial_Fibrillation_Project/rpdr_data/Detailed_data_request_2012-present" )
 
-# import a single RPDR table
+# build a single RPDR table
 F.build_table( "path/to/rpdrfile.txt" )
 
+# define resulting database path
+dbpath = "/Users/nathanielreynolds/Documents/projects/Atrial_Fibrillation_Project/rpdr_data/Detailed_data_request_2012-present/JNR0_20130508_103057_MGH_DB.sqlite"
+
+# instantiate PatientNotes
+N = rpdr.PatientNotes(dbpath)
+
+# add a patient note
+N.write( author='nareynolds', empi='11111111', note='some interesting finding' )
+
+# delete patient notes
+N.delete( [1,2,3,4,...] )
 
 # instantiate Patient
-import rpdr
-dbpath = "/Users/nathanielreynolds/Documents/Career/'12 Mass General Hosptial/Atrial Fibrillation Project/rpdr_data/Detailed_data_request_2012-present/JNR0_20130508_103057_MGH_DB.sqlite"
-P = rpdr.Patient(dbpath, empi='100090828', mrn='54321')
+P = rpdr.Patient( dbpath, empi='100090828', mrn='54321' )
 
 # view patient timeline
-P.timeline(['Rdt','Rad'])
+P.timeline( ['Rdt','Rad'] )
 
 # view specific event
-P.event('Rad', 1)
+P.event( 'Rad', 1 )
+
+# add note for this patient
+P.add_note( author='nareynolds', note='something very interesting' )
+
+# delete notes with Patient class
+P.delete_notes( [1,2,3,4,...] )
+
+# print notes for this patient
+P.get_notes()
+
 
 *****************************************************
 '''
@@ -109,7 +130,6 @@ class SqliteFactory:
         # build each table
         for file in rpdrFiles:
             self.build_table( os.path.join(buildDir,file) )
-
 
 
 
@@ -264,6 +284,129 @@ class SqliteFactory:
 
 
 
+class PatientNotes:
+    
+    #--------------------------------------------------------------------------------------------
+    def __init__( self, dbPath=None ):
+        
+        self.dbPath = dbPath
+        self.patientNotesTableName = 'PatientNotes'
+
+        # validate args
+        if dbPath is None:
+            print " Error: must provide database path."
+            return
+
+        # connect to SQLite database and enable dictionary access of rows
+        self.dbCon = sqlite3.connect(self.dbPath)
+        self.dbCon.row_factory = sqlite3.Row
+
+        # check if the patient notes database table exists
+        qResult = None
+        with self.dbCon:
+            dbCur = self.dbCon.cursor()
+            dbCur.execute( "SELECT name FROM sqlite_master WHERE type='table' AND name='%s'" % self.patientNotesTableName )
+            qResult = dbCur.fetchone()
+
+        if qResult is None:
+            # patient notes table doesn't exist - create table in database
+            print "Database table '%s' not found. Creating it..." % self.patientNotesTableName
+            qCreate = "CREATE TABLE " + self.patientNotesTableName + " ( id INTEGER PRIMARY KEY, Author TEXT NOT NULL, CreatedTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, Empi TEXT NOT NULL, Note TEXT NOT NULL )"
+            with self.dbCon:
+                dbCur = self.dbCon.cursor()
+                dbCur.execute(qCreate)
+
+
+    #--------------------------------------------------------------------------------------------
+    def write(self, author, empi, note):
+        
+        # check that args are valid strings
+        if not author or not isinstance(author, str):
+            print "Error! Must provide an author string."
+            return
+        if not empi or not isinstance(empi, str):
+            print "Error! Must provide an empi string."
+            return
+        if not note or not isinstance(note, str):
+            print "Error! Must provide a note string."
+            return
+            
+        # check that the patient exists
+        with self.dbCon:
+            dbCur = self.dbCon.cursor()
+            dbCur.execute( "SELECT count(*) FROM Mrn WHERE Enterprise_Master_Patient_Index = ?", (empi,) )
+            if dbCur.fetchone()[0] == 0:
+                print "The patient with EMPI %d was not found in the Mrn table!" % empi
+            else:
+                # add note
+                dbCur.execute( "INSERT INTO %s ( Author, Empi, Note ) VALUES ( ?, ?, ? )" % self.patientNotesTableName, ( author, empi, note ) )
+
+
+    #--------------------------------------------------------------------------------------------
+    def delete(self, noteIds):
+        
+        # check that at least 1 note ID was provided as a list
+        if not isinstance( noteIds, list ):
+            print "Error! Must provide a list of note IDs"
+            return
+        
+        numIds = len( noteIds )
+        if numIds == 0:
+            print "No note IDs provided!"
+            return
+        
+        # loop through list of note ids
+        for noteId in noteIds:
+            
+            # check that series is owned by this project
+            with self.dbCon:
+                dbCur = self.dbCon.cursor()
+                dbCur.execute( "SELECT count(*) FROM %s WHERE id = ?" % self.patientNotesTableName, (noteId,) )
+                if dbCur.fetchone()[0] == 0:
+                    print "The patient note with id %d is not found!" % (noteId,)
+                else:
+                    # delete note
+                    dbCur.execute( "DELETE FROM %s WHERE id = ?" % self.patientNotesTableName, (noteId,) )
+
+
+
+    #--------------------------------------------------------------------------------------------
+    def print_patient_notes(self, empi):
+
+        # check that the patient exists
+        with self.dbCon:
+            dbCur = self.dbCon.cursor()
+            dbCur.execute( "SELECT count(*) FROM Mrn WHERE Enterprise_Master_Patient_Index = ?", (empi,) )
+            if dbCur.fetchone()[0] == 0:
+                print "The patient with EMPI %d was not found in the Mrn table!" % empi
+            else:
+                # get patient notes
+                dbCur.execute( "SELECT * FROM %s WHERE Empi = ?" % self.patientNotesTableName, (empi,) )
+                qResult = dbCur.fetchall()
+                if qResult is None:
+                    print "This patient has no notes."
+                    return
+                notes = qResult
+
+                # print notes
+                print " _______________________________________________________________________________________________\n |"
+                print " | Patient Notes ( EMPI = %s )" % empi
+                print " |----------------------------------------------------------------------------------------------"
+                print " |id \t|Timestamp \t\t|Author \t|Note"
+                print " |----------------------------------------------------------------------------------------------"
+                for note in notes:
+                    if len(note['Note']) > 50:
+                        blurb = "%s..." % note['Note'][:50]
+                    else:
+                        blurb = note['Note']
+                    print " |%s \t|%s \t|%s \t|%s" % (note['id'], str(note['CreatedTimestamp']), note['Author'], blurb )
+                print " |______________________________________________________________________________________________\n"
+
+
+
+
+
+
 
 class Patient:
 
@@ -291,6 +434,7 @@ class Patient:
         self.dbTimelineTables = None
         self.demographics = None
         self.timelineTableNames = None
+        self.patientNotes = None
 
         # connect to SQLite database and enable dictionary access of rows
         self.dbCon = sqlite3.connect(self.dbPath)
@@ -341,6 +485,8 @@ class Patient:
         #            print " Found %d events in '%s' table" % (qResult[0],tableName)
 
 
+        # instantiate PatientNotes to use with this patient
+        self.patientNotes = PatientNotes(self.dbPath)
 
 
     #--------------------------------------------------------------------------------------------
@@ -447,6 +593,29 @@ class Patient:
             print " |%s:%s %s" % (col.name, spacing, eventCols[cIdx])
 
         print " |______________________________________________________________________________________________\n"
+
+
+
+
+
+    #--------------------------------------------------------------------------------------------
+    def add_note( self, author, note ):
+
+        self.patientNotes.write( author, self.empi, note )
+
+
+    #--------------------------------------------------------------------------------------------
+    def delete_notes( self, noteIds ):
+        
+        self.patientNotes.delete( noteIds )
+
+
+    #--------------------------------------------------------------------------------------------
+    def get_notes( self ):
+        
+        self.patientNotes.print_patient_notes( self.empi )
+
+
 
 
 
