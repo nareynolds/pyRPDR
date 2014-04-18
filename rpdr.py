@@ -75,12 +75,26 @@ import csv
 # get time tools
 import time
 
+# for detaling with unicode
+import unicodedata
 
 
 
 
 class SqliteFactory:
 
+    #--------------------------------------------------------------------------------------------
+    def enforce_ascii(self, s):
+
+        # strip non-unicode characters
+        s = "".join(i for i in s if ord(i)<128)
+
+        # ascii encoding
+        s = s.encode('ascii','ignore')
+
+        return s
+
+    
     #--------------------------------------------------------------------------------------------
     # build SQLite database from RPDR tables in the given directory
     def build_database( self, buildDir ):
@@ -253,8 +267,14 @@ class SqliteFactory:
                 if len(row) > numCols:
                     row = row[:numCols-1] + ['|'.join(row[numCols-1:])]
                 
-                # handle date reformat
+                # reformatting
                 for cIdx, col in enumerate(rpdrTable.columns):
+
+                    # enforce ascii text
+                    if row[cIdx]:
+                        row[cIdx] = self.enforce_ascii( row[cIdx] )
+
+                    # date reformatting
                     if col.dateReformat and row[cIdx]:
                         row[cIdx] = time.strftime( col.dateReformat.reformat, time.strptime(row[cIdx], col.dateReformat.format) )
                 
