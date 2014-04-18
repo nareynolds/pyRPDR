@@ -3124,6 +3124,42 @@ Mrn = Table(
     useInTimeline = False,
     columns=[
         TableColumn(
+            name =          "IncomingId",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "IncomingSite",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "Status",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
             name =          "Enterprise_Master_Patient_Index",
             type =          "TEXT",
             primaryKey =    True,
