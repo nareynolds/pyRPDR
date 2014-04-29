@@ -11,7 +11,7 @@ import rpdr
 F = rpdr.SqliteFactory()
 
 # build all RPDR tables in a directory
-F.build_database( "/Users/nathanielreynolds/Documents/projects/Atrial_Fibrillation_Project/rpdr_data/Detailed_data_request_2012-present" )
+F.build_database( "/Users/nathanielreynolds/Documents/projects/KneeOA/RPDR April 2014 MALES" )
 
 # build a single RPDR table
 F.build_table( "path/to/rpdrfile.txt" )
@@ -168,7 +168,8 @@ class SqliteFactory:
             return
 
         # open file as csv file with approriate dialect
-        csvFile = open(tablePath,"rb")
+        # csvFile = open(tablePath,"rb")
+        csvFile = open(tablePath,"rU")
         csvReader = csv.reader(
             csvFile,
             delimiter = rpdrTable.csvDialect.delimiter,
@@ -256,44 +257,53 @@ class SqliteFactory:
         with dbCon:
             dbCur = dbCon.cursor()
             numCols = len(rpdrTableColumnNames)
+            lineIdx = -1
             for rIdx, row in enumerate(csvReader):
-                
-                # check for too few columns
-                if len(row) < numCols:
-                    print " Error (row %d)! Less than %d columns found! %s" % (rIdx+1, numCols, row)
-                    return
-                
-                # handle extra columns: combine end columns
-                if len(row) > numCols:
-                    row = row[:numCols-1] + ['|'.join(row[numCols-1:])]
-                
-                # reformatting
-                for cIdx, col in enumerate(rpdrTable.columns):
+                lineIdx = lineIdx + 1
 
-                    # enforce ascii text
-                    if row[cIdx]:
-                        row[cIdx] = self.enforce_ascii( row[cIdx] )
+                try:
 
-                    # date reformatting
-                    if col.dateReformat and row[cIdx]:
-                        row[cIdx] = time.strftime( col.dateReformat.reformat, time.strptime(row[cIdx], col.dateReformat.format) )
-                
-                # handle free-text report in last column
-                if rpdrTable.freeTextReportInLastColumn:
-                    reportRows = [ row[-1] ]
-                    while 1:
-                        nextRow = csvReader.next()
-                        if not nextRow:
-                            reportRows.append('')
-                        else:
-                            if '[report_end]' not in nextRow[0]:
-                                reportRows.append( '|'.join(nextRow) )
-                            else:
-                                break
-                    row[-1] = '\n'.join(reportRows)
+                    # check for too few columns
+                    if len(row) < numCols:
+                        print " Error (row %d)! Less than %d columns found! %s" % (lineIdx, numCols, row)
+                        return
                     
-                # insert row into database
-                dbCur.execute(qInsert, row)
+                    # handle extra columns: combine end columns
+                    if len(row) > numCols:
+                        row = row[:numCols-1] + ['|'.join(row[numCols-1:])]
+                    
+                    # reformatting
+                    for cIdx, col in enumerate(rpdrTable.columns):
+
+                        # enforce ascii text
+                        if row[cIdx]:
+                            row[cIdx] = self.enforce_ascii( row[cIdx] )
+
+                        # date reformatting
+                        if col.dateReformat and row[cIdx]:
+                            row[cIdx] = time.strftime( col.dateReformat.reformat, time.strptime(row[cIdx], col.dateReformat.format) )
+                    
+                    # handle free-text report in last column
+                    if rpdrTable.freeTextReportInLastColumn:
+                        reportRows = [ row[-1] ]
+                        while 1:
+                            nextRow = csvReader.next()
+                            lineIdx = lineIdx + 1
+                            if not nextRow:
+                                reportRows.append('')
+                            else:
+                                if '[report_end]' not in nextRow[0]:
+                                    reportRows.append( '|'.join(nextRow) )
+                                else:
+                                    break
+                        row[-1] = '\n'.join(reportRows)
+                        
+                    # insert row into database
+                    dbCur.execute(qInsert, row)
+
+                except:
+                    print "Error processing line %d:" % lineIdx
+                    raise
 
         # close file
         csvFile.close()
