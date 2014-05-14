@@ -971,6 +971,140 @@ Dis = Table(
 
 
 #--------------------------------------------------------------------------------------------
+# define Dpt RPDR table
+Dpt = Table(
+    name = 'Dpt',
+    fileExt = 'txt',
+    csvDialect = StandardCsvDialect,
+    freeTextReportInLastColumn = True,
+    useInTimeline = True,
+    columns=[
+        TableColumn(
+            name =          "EMPI",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         True,
+            unique =        False,
+            notNull =       True,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "MRN_Type",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "MRN",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "Report_Number",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "MID",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "Report_Date_Time",
+            type =          "DATETIME",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  True,
+            timelineBlurb = False,
+            dateReformat =  DateReformat( format='%m/%d/%Y %I:%M:%S %p', reformat=SQLITE_DATE_FORMAT )
+        ),
+        TableColumn(
+            name =          "Report_Description",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = True,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "Report_Status",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "Report_Type",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "Report_Text",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       False,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        )
+    ]
+)
+
+
+
+#--------------------------------------------------------------------------------------------
 # define Enc RPDR table
 Enc = Table(
     name = 'Enc',
@@ -4970,6 +5104,7 @@ Tables = [
     Dem,
     Dia,
     Dis,
+    Dpt,
     Enc,
     End,
     Lab,
