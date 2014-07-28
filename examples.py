@@ -5,7 +5,6 @@
 import rpdr
 
 
-
 # instantiate RPDR dataset
 rpdrDir = "/path/to/directory/containing/RPDR/text/files"
 ds = rpdr.Dataset()
