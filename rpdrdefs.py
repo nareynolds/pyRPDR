@@ -4910,7 +4910,7 @@ Rnd = Table(
             dateReformat =  None
         ),
         TableColumn(
-            name =          "Deptartment",
+            name =          "Department",
             type =          "TEXT",
             primaryKey =    False,
             index =         False,
