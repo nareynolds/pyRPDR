@@ -7,7 +7,7 @@ import rpdr
 
 # instantiate RPDR dataset
 rpdrDir = "/path/to/directory/containing/RPDR/text/files"
-ds = rpdr.Dataset()
+ds = rpdr.Dataset( rpdrDir )
 
 
 # instantiate a patient
