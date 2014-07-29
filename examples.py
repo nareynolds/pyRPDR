@@ -33,7 +33,7 @@ p.event( tableName, eventId )
 # record a note about patient
 author = "Your Name"
 note = "something noteable about this patient"
-p.writeNote( author=author, note=note)
+p.writeNote( author, note )
 
 
 # print patient notes

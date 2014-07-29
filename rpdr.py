@@ -445,15 +445,15 @@ class Patient:
 
 
     #--------------------------------------------------------------------------------------------
-    def event( self, table, event ):
+    def event( self, tableName, eventId ):
 
         # validate args
-        if table:
-            tableDefinition = [ t for t in self.datasetTableDefinitions if t.name in table ][0]
+        if tableName:
+            tableDefinition = [ t for t in self.datasetTableDefinitions if t.name in tableName ][0]
         else:
-            print "Warning! '%s' is not a valid RPDR table." % table
+            print "Warning! '%s' is not a valid RPDR table." % tableName
             return
-        if not event:
+        if not eventId:
             print "Warning! Must provide RPDR event ID."
             return
 
@@ -461,7 +461,7 @@ class Patient:
         qResult = None
         with self.dbCon:
             dbCur = self.dbCon.cursor()
-            dbCur.execute( "SELECT * FROM %s WHERE EMPI = ? AND rowid = ? LIMIT 1" % tableDefinition.name, (self.empi,event) )
+            dbCur.execute( "SELECT * FROM %s WHERE EMPI = ? AND rowid = ? LIMIT 1" % tableDefinition.name, (self.empi,eventId) )
             qResult = dbCur.fetchone()
             if qResult is None:
                 print "Warning! Query for event returned nothing."
