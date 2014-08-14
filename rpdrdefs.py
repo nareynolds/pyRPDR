@@ -2876,6 +2876,56 @@ Lvs = Table(
 
 
 #--------------------------------------------------------------------------------------------
+# define Mcm RPDR table
+Mcm = Table(
+    name = 'Mcm',
+    fileExt = 'txt',
+    csvDialect = StandardCsvDialect,
+    freeTextReportInLastColumn = False,
+    useInTimeline = False,
+    columns=[
+        TableColumn(
+            name =          "Control_Patient_EMPI",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         True,
+            unique =        False,
+            notNull =       True,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "Case_Patient_EMPI",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         True,
+            unique =        False,
+            notNull =       True,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        ),
+        TableColumn(
+            name =          "Match_Strength",
+            type =          "TEXT",
+            primaryKey =    False,
+            index =         False,
+            unique =        False,
+            notNull =       True,
+            foreignKeyRef = None,
+            timelineDate =  False,
+            timelineBlurb = False,
+            dateReformat =  None
+        )
+    ]
+)
+
+
+
+#--------------------------------------------------------------------------------------------
 # define Med RPDR table
 Med = Table(
     name = 'Med',

@@ -38,14 +38,18 @@ class Dataset:
         # save directory
         self.dir = dataDir
 
+        # compute path to SQLite database
+        self.dbPath = os.path.join( self.dir, '%s.sqlite' % dbName )
+
         # search for RPDR text files
         self.tables = self.findTables(self.dir)
         if len(self.tables) < 1:
-            print "Error! No RPDR files found in given directory: %s" % self.dir
-            return
-
-        # compute path to SQLite database
-        self.dbPath = os.path.join( self.dir, '%s.sqlite' % dbName )
+            print "Warning! No RPDR files found in given directory: %s" % self.dir
+            
+            # search for SQLite database
+            if not os.path.isfile(self.dbPath):
+                print "Warning! SQLite database found: %s" % self.dbPath
+                return
 
         # create/connect to SQLite database and enable dictionary access of rows
         if not os.path.isfile(self.dbPath):
